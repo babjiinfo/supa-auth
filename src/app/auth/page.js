@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from "react-hot-toast";
 
+/**
+ * Authentication Component
+ * Handles user sign-up, sign-in, and OTP verification.
+ *
+ * @returns {JSX.Element} Authentication UI
+ */
 export default function Auth() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,6 +21,12 @@ export default function Auth() {
     const [error, setError] = useState('');
     const router = useRouter();
 
+    /**
+     * Handles user sign-up request.
+     * Sends user details to the backend API for registration.
+     * Displays success or error messages accordingly.
+     * Redirects to the dashboard on success.
+     */
     const handleSignUp = async () => {
         const res = await fetch('/api/auth/signup', {
             method: 'POST',
@@ -26,12 +38,15 @@ export default function Auth() {
         if (res.ok) {
             toast.success(data.message);
             router.push('/dashboard');
-        }
-        else {
+        } else {
             toast.error(data?.message);
         }
     };
 
+    /**
+     * Handles user sign-in request.
+     * Initiates login process and enables MFA if required.
+     */
     const handleSignIn = async () => {
         const res = await fetch("/api/auth/signin", {
             method: "POST",
@@ -49,6 +64,11 @@ export default function Auth() {
         }
     };
 
+    /**
+     * Handles OTP verification.
+     * Verifies the provided OTP with the backend API.
+     * Redirects to the dashboard on success.
+     */
     const handleOtpVerification = async () => {
         const res = await fetch('/api/auth/verify-otp', {
             method: 'POST',
@@ -60,8 +80,7 @@ export default function Auth() {
         if (res.ok) {
             toast.success(data.message);
             router.push('/dashboard');
-        }
-        else {
+        } else {
             toast.error(data?.message);
         }
     };
@@ -74,8 +93,8 @@ export default function Auth() {
                 <button
                     className={`btn btn-outlined ${!isSignUp ? 'active' : ''}`}
                     onClick={() => {
-                        setIsSignUp(false)
-                        setIsMfaEnabled(false)
+                        setIsSignUp(false);
+                        setIsMfaEnabled(false);
                     }}
                 >
                     {'Switch to Sign In'}
@@ -83,14 +102,12 @@ export default function Auth() {
                 <button
                     className={`btn btn-outlined ${isSignUp ? 'active' : ''}`}
                     onClick={() => {
-                        setIsSignUp(true)
-                        setIsMfaEnabled(false)
-                    }
-                    }
+                        setIsSignUp(true);
+                        setIsMfaEnabled(false);
+                    }}
                 >
                     {'Switch to Sign Up'}
                 </button>
-
             </div>
 
             <form>

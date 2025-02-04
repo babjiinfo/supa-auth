@@ -41,22 +41,33 @@ a {
   }
 }
 
-.authPage, .mainPage{
-  width: 100%;min-height: 100vh;display: flex; align-items: center;justify-content: center;
-  flex-direction: column;height: 100%;padding: 15px;
+.authPage,
+.mainPage {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  padding: 15px;
 }
-.authPage_title{
+
+.authPage_title {
   font-size: 48px;
   font-weight: 600;
   margin-bottom: 30px;
 }
-.authPage_tabs{
-  display: flex;gap: 15px;
+
+.authPage_tabs {
+  display: flex;
+  gap: 15px;
   margin-bottom: 30px;
-      flex-wrap: wrap;
-        justify-content: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-.btn{
+
+.btn {
   padding: 15px 20px;
   border-radius: 5px;
   cursor: pointer;
@@ -64,48 +75,196 @@ a {
   background-color: #007bff;
   border: 1px solid #007bff;
 }
-.btn.btn-outlined{
+
+.btn.btn-outlined {
   color: #000;
   background-color: #fff;
   border: 1px solid #007bff;
 }
-.btn.btn-outlined.active{
+
+.btn.btn-outlined.active {
   background-color: #007bff;
   color: #fff;
 }
-.authPage .formGroup label{
+
+.authPage .formGroup label {
   font-size: 15px;
   display: block;
   margin-bottom: 5px;
 }
-.authPage .formGroup{
+
+.authPage .formGroup {
   margin-bottom: 20px;
 }
-.authPage .formGroup input{
-  width: 100%;min-width: 300px;
+
+.authPage .formGroup input {
+  width: 100%;
+  min-width: 300px;
   border: 1px solid #959595;
   font-size: 15px;
-  padding: 10px 15px;height: 45px;
+  padding: 10px 15px;
+  height: 45px;
   background-color: #fff;
 }
-@media(max-width: 575px){
-  .authPage .formGroup input { min-width: 280px;}
+
+@media(max-width: 575px) {
+  .authPage .formGroup input {
+    min-width: 280px;
+  }
 }
+
 .authPage .formGroup input:hover,
 .authPage .formGroup input:focus,
-.authPage .formGroup input:active{
+.authPage .formGroup input:active {
   border-color: #007bff;
   outline: none;
   box-shadow: none;
 }
-.mainPage{
+
+.mainPage {
   text-align: center;
 }
-.mainPage_title{
+
+.mainPage_title {
   font-size: 34px;
   font-weight: 700;
   margin-bottom: 20px;
 }
-.mainPage_para{
-  font-size: 20px;font-weight: 500;margin-bottom: 30px;
+
+.mainPage_para {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+
+.authPage {
+  padding: 1rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.summary-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.security-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.summary-item,
+.security-item,
+.recommendation-item {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.summary-label,
+.security-label,
+.recommendation-table {
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.summary-value,
+.security-value {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #2d3748;
+}
+
+.recommendation-severity {
+  color: #e53e3e;
+  font-size: 0.875rem;
+}
+
+.recommendation-text {
+  margin: 0.5rem 0;
+}
+
+.recommendation-details {
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  background-color: #f7fafc;
+}
+
+.table-cell {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #e2e8f0;
+}
+
+.mfa-status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.mfa-enabled {
+  background-color: #f0fff4;
+  color: #48bb78;
+}
+
+.mfa-disabled {
+  background-color: #fff5f5;
+  color: #f56565;
+}
+
+.table-list {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+}
+
+.table-item {
+  margin-bottom: 0.5rem;
+}
+
+.table-status {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.rls-enabled {
+  background-color: #f0fff4;
+  color: #48bb78;
+}
+
+.rls-disabled {
+  background-color: #fff5f5;
+  color: #f56565;
 }

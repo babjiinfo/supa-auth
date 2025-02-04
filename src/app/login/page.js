@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 /**
  * Login component for authenticating users with Supabase URL and Service Role Key.
@@ -17,18 +18,27 @@ export default function Login() {
      */
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('/api/auth', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(credentials),
-        });
-        const data = await response.json();
+        try {
+            const res = await fetch('/api/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credentials),
+            });
+            if (res.status == 400) {
+                const errorData = await res.json();
+                console.log(errorData, "errorData");
+                toast.error(errorData.message);
+                return;
+            }
 
-        if (response.ok) {
+            const data = await res.json();
             sessionStorage.setItem('authData', JSON.stringify(data));
             router.push('/home');
+        } catch (error) {
+            console.error("Fetch error:", error);
         }
     };
+
 
     return (
         <div className='authPage'>

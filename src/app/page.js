@@ -6,7 +6,7 @@ export default function Home() {
   const router = useRouter();
 
   const handleSignIn = () => {
-    router.push("/auth");
+    router.push("/login");
   };
 
   return (

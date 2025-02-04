@@ -42,6 +42,7 @@ export default function Auth() {
         const data = await res.json();
 
         if (data.success) {
+            setIsMfaEnabled(true);
             toast.success(data.message);
         } else {
             toast.error(data.message);

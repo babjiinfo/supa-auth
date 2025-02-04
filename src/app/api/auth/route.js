@@ -14,8 +14,8 @@ export async function POST(req) {
 
         // Validate input
         if (!url || !key) {
-            return NextResponse.json(
-                { success: false, message: "Missing Supabase URL or key" },
+            return new Response(
+                JSON.stringify({ success: false, message: 'Missing Supabase URL or key' }),
                 { status: 400 }
             );
         }
@@ -26,9 +26,9 @@ export async function POST(req) {
         // First verify credentials with auth check
         const { data: authCheck, error: authError } = await supabase.auth.admin.listUsers();
         if (authError) {
-            return NextResponse.json(
-                { success: false, message: "Invalid Supabase credentials" },
-                { status: 401 }
+            return new Response(
+                JSON.stringify({ success: false, message: "Invalid Supabase credentials" }),
+                { status: 400 }
             );
         }
 
@@ -42,16 +42,16 @@ export async function POST(req) {
         });
 
         if (!response.ok) {
-            return NextResponse.json(
-                { success: false, message: "Failed to fetch schema information" },
-                { status: 500 }
+            return new Response(
+                JSON.stringify({ success: false, message: "Failed to fetch schema information" }),
+                { status: 400 }
             );
         }
 
         const definitions = await response.json();
 
         // Process the table definitions
-        const tables = Object.entries(definitions.definitions).map(([tableName, def]) => {
+        const tables = Object.entries(definitions.definitions)?.map(([tableName, def]) => {
             return {
                 table: tableName,
                 // If table has security policies defined in the schema

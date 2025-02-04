@@ -4,12 +4,19 @@ import { supabase } from '../../../../lib/supabaseClient';
 export async function POST(req) {
     const { email, password, name, phoneNumber } = await req.json();
 
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+        email, password, options: {
+            data: {
+                first_name: name,
+                phoneNumber,
+            },
+        },
+    });
     const userObject = data;
     if (error) {
         signupLogger.error(`Signup failed for email: ${email} - ${error.message}`);
         return new Response(
-            JSON.stringify({ success: false, message: "User already exists" }),
+            JSON.stringify({ success: false, message: error.message }),
             { status: 400 }
         );
     }

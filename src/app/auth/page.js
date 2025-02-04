@@ -58,9 +58,11 @@ export default function Auth() {
 
         const data = await res.json();
         if (res.ok) {
+            toast.success(data.message);
             router.push('/dashboard');
-        } else {
-            setError(data.error);
+        }
+        else {
+            toast.error(data?.message);
         }
     };
 
@@ -71,13 +73,20 @@ export default function Auth() {
             <div className='authPage_tabs'>
                 <button
                     className={`btn btn-outlined ${!isSignUp ? 'active' : ''}`}
-                    onClick={() => setIsSignUp(false)}
+                    onClick={() => {
+                        setIsSignUp(false)
+                        setIsMfaEnabled(false)
+                    }}
                 >
                     {'Switch to Sign In'}
                 </button>
                 <button
                     className={`btn btn-outlined ${isSignUp ? 'active' : ''}`}
-                    onClick={() => setIsSignUp(true)}
+                    onClick={() => {
+                        setIsSignUp(true)
+                        setIsMfaEnabled(false)
+                    }
+                    }
                 >
                     {'Switch to Sign Up'}
                 </button>
@@ -105,6 +114,16 @@ export default function Auth() {
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
                         </div>
+
+                        <div className='formGroup'>
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
                     </>
                 )}
 
@@ -116,15 +135,6 @@ export default function Auth() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div className='formGroup'>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
 

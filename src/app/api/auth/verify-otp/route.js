@@ -13,8 +13,14 @@ export async function POST(req) {
     })
 
     if (error) {
-        return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+        return new Response(
+            JSON.stringify({ success: false, message: error.message }),
+            { status: 400 }
+        );
     }
 
-    return new Response(JSON.stringify({ message: 'OTP verified successfully!' }), { status: 200 });
+    return new Response(
+        JSON.stringify({ sucess: true, message: 'OTP verified successfully!' }),
+        { status: 200 }
+    );
 }

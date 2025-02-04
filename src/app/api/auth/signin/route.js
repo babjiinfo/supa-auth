@@ -9,8 +9,12 @@ export async function POST(req) {
             shouldCreateUser: false,
         },
     });
-
-    if (error) {
+    if (error?.code === "otp_disabled") {
+        return new Response(
+            JSON.stringify({ success: false, message: "User not found" }),
+            { status: 400 }
+        );
+    } else if (error) {
         loginLogger.error(`Login failed for email: ${email} - ${error.message}`);
         return new Response(
             JSON.stringify({ success: false, message: error.message }),

@@ -2,10 +2,19 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+/**
+ * Login component for authenticating users with Supabase URL and Service Role Key.
+ * @returns {JSX.Element} The login form component.
+ */
 export default function Login() {
     const [credentials, setCredentials] = useState({ url: '', key: '' });
     const router = useRouter();
 
+    /**
+     * Handles form submission by sending credentials to the authentication API.
+     * If authentication is successful, stores auth data in sessionStorage and navigates to '/home'.
+     * @param {React.FormEvent} e - The form submit event.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch('/api/auth', {

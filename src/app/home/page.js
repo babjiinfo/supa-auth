@@ -1,9 +1,18 @@
 'use client';
 import { useEffect, useState } from 'react';
 
+/**
+ * Home component that displays user data stored in session storage.
+ * Retrieves authentication data and displays a user table if data is available.
+ * @returns {JSX.Element} The home page component.
+ */
 export default function Home() {
     const [userData, setUserData] = useState([]);
 
+    /**
+     * Effect hook to retrieve authentication data from session storage.
+     * Parses the stored data and updates the state with user details.
+     */
     useEffect(() => {
         const storedData = sessionStorage.getItem('authData');
         if (storedData) {

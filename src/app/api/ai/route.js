@@ -11,23 +11,19 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
  * @returns {Promise<string>} A security recommendation from the AI.
  */
 async function getAISuggestion(issue) {
-    const prompt = `As a security expert for Supabase, recommend steps to resolve: ${issue}`;
-
     const response = await openai.chat.completions.create({
         model: 'gpt-4o',
         messages: [
             {
                 role: 'system',
-                content: `You are a helpful assistant specializing in Supabase security and related queries...`
+                content: `You are a helpful assistant that responds using markdown formatting .As a security expert for Supabase specializing in row level security , multi factor authentication and point in time recovery recommend steps to resolve: ${issue}`
             },
             { role: 'user', content: issue }
         ],
-        stream: false, // Change to false for normal response
         response_format: { type: 'text' },
         temperature: 0.7,
         top_p: 1
     });
-
     return response.choices[0].message?.content || "No response";
 }
 

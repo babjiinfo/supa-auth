@@ -1,0 +1,14 @@
+
+.btn{
+  height: 44px;
+  font-size: 18px;
+  font-family: "General Sans medium";
+  padding: 7px 20px;
+  background-color: $blue;
+  color: #fff;
+  border-radius: 8px;
+  &:hover{
+      background-color: lighten($blue, 1.9);
+      color: #fff;
+  }
+}

@@ -1,0 +1,62 @@
+.quickModal{
+    font-family: "General Sans";
+    .modal{
+        &-title{
+            font-size: 26px;
+            font-family: "General Sans Medium";
+            font-weight: 600;
+            color: #0694FF;
+        }
+        &-header{
+            border: 0;
+            margin-bottom: 40px;
+            padding: 30px 200px;
+        }
+        &-dialog{
+            max-width: 960px;
+        }
+        &-body{
+            padding: 0 22px 0 0;
+        }
+    }
+    .btn-close{
+        position: absolute;
+        right: 22px;
+        top: 30px;
+        box-shadow: none;
+    }
+    &_title{
+        font-size: 18px;
+        margin-bottom: 12px;
+        color: #000;
+        font-family: "General Sans medium";
+        font-weight: 600;
+    }
+    &_txt{
+        font-size: 16px;
+        color: #000;
+    }
+    &_cnt{
+        max-height:calc(100vh - 225px);
+        overflow-y: auto;
+        margin-bottom: 25px;
+        &_inner{
+            padding: 0 200px 46px 200px;
+        }
+        li{
+            color: #525866;
+            font-family: "General Sans Medium";
+            &:not(:last-child){
+                margin-bottom: 10px;
+            }
+        }
+    }
+    &_code{
+        border: 1px solid #E1E1E1;
+        border-radius: 10px;
+        padding: 40px;
+        code{
+            color: #A8A8A8;
+        }
+    }
+}

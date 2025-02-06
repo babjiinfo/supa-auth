@@ -1,21 +1,16 @@
 .dashboardPage {
   padding-top: 40px;
-  $blue: #007cf5;
   font-family: "General Sans";
-
   .page-title {
     font-size: 40px;
-    font-weight: 500;
+    font-weight: 600;
     color: #000;
-
+    font-family: "General Sans Medium";
+    margin-bottom: 0;
     span {
       color: $blue;
     }
-
-    font-family: "General Sans Medium";
-    margin-bottom: 0;
   }
-
   .status {
     padding: 3px 15px;
     font-size: 12px;
@@ -26,39 +21,37 @@
     justify-content: center;
     border-radius: 6px;
     margin-left: 5px;
-
     &-danger {
       background-color: #fceceb;
       color: #e85347;
     }
-
     &-success {
       background-color: #e6fcf6;
       color: #1ee0ac;
     }
   }
-
   .section {
     box-shadow: none;
     padding: 60px 0;
     margin-bottom: 0;
-
+    &-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     &-title {
       font-size: 26px;
       font-family: "General Sans Medium";
       margin-bottom: 20px;
-
       span {
         color: $blue;
       }
     }
   }
-
   .container {
     max-width: 1340px;
     margin: 0 auto;
   }
-
   .summary,
   .security {
     &-item {
@@ -69,32 +62,25 @@
       display: flex;
       align-items: center;
       position: relative;
-
       &.purple {
         background: #693ee014;
-
         &::before {
           background-image: url("../../images/table-bg-2.png");
         }
       }
-
       &.red {
         background: #e9354414;
-
         &::before {
           background-image: url("../../images/table-bg-3.png");
         }
       }
-
       &.orange {
         background: #e97d3514;
-
         &::before {
           background-image: url("../../images/table-bg-4.png");
         }
       }
     }
-
     // &-item{
     //     padding:20px; border: 1px solid rgb(214, 243, 255);
     //     background: linear-gradient(rgb(234, 243, 255) 0%, rgba(234, 243, 255, 0) 100%);
@@ -105,13 +91,11 @@
       color: #525866;
       font-family: "General Sans";
     }
-
     &-value {
       font-size: 26px;
       font-family: "General Sans Medium";
     }
   }
-
   .summary {
     &-icon {
       flex-shrink: 0;
@@ -120,11 +104,14 @@
       margin-right: 15px;
       object-fit: contain;
     }
-
     &-section {
       padding-bottom: 0 !important;
+      .section {
+        &-title {
+          margin: 0;
+        }
+      }
     }
-
     &-item {
       &::before {
         content: "";
@@ -138,15 +125,12 @@
       }
     }
   }
-
   .security {
     &-item {
       justify-content: space-between;
-
       &::before {
         display: none;
       }
-
       img {
         height: 65px;
         object-fit: contain;
@@ -158,20 +142,17 @@
     background-color: #0e121b;
     width: 100%;
     max-width: inherit;
-
     .section-title {
       color: #fff;
       text-align: center;
     }
   }
-
   .recommendation {
     &-wrap {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
     }
-
     &-item {
       padding: 40px 20px;
       border: 1px solid rgba(202, 207, 216, 0.2);
@@ -179,55 +160,46 @@
       max-width: 49%;
       background-color: #222530;
       border-radius: 12px;
-
       p {
         &:not(:last-child) {
           margin-bottom: 10px;
         }
       }
     }
-
     &-severity,
     &-table {
       color: #cacfd8;
       font-size: 16px;
     }
-
     &-table {
       span {
         color: $blue;
         font-family: "General Sans Medium";
       }
     }
-
     &-text {
       font-family: "General Sans Medium";
       color: #fff;
     }
-
     &-details {
       color: #8d99ad;
     }
   }
-
   .users-tables-responsive {
     max-width: 100%;
     overflow-x: auto;
   }
-
   .user-table {
     thead {
       th {
         background-color: #eaf3ff;
       }
     }
-
     .table {
       &-cell {
         border: 1px solid rgb(214, 243, 255);
         white-space: nowrap;
       }
-
       &-item {
         &:last-child {
           margin-bottom: 0;
@@ -235,7 +207,6 @@
       }
     }
   }
-
   .summeryGraph {
     .row {
       display: flex;
@@ -264,6 +235,12 @@
       border: 1px solid #e1e1e1;
       position: relative;
       height: 100%;
+      h2 {
+        font-family: "General Sans Medium";
+        font-weight: 600;
+        font-size: 26px;
+        color: #000;
+      }
     }
 
     &_right {
@@ -276,9 +253,7 @@
         overflow-y: auto;
 
         &::-webkit-scrollbar {
-          width: 6px;
           background-color: #f5f5f5;
-
           &-thumb {
             background-color: #aeaeae;
           }
@@ -336,14 +311,12 @@
         color: #000;
       }
     }
-
     &_wrap {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
     }
-
     &_card {
       padding: 20px;
       background-color: rgba(#e97d35, 0.1);
@@ -352,84 +325,68 @@
       position: absolute;
       right: 30px;
       bottom: 90px;
-
       label {
         font-size: 20px;
         color: #525866;
         font-family: "General Sans";
       }
-
       p {
         font-size: 26px;
         font-family: "General Sans Medium";
-        margin-top: 5px;
+        margin: 5px 0 0;
         line-height: 1.2;
       }
     }
   }
-
   @media (max-width: 1399px) {
     .container {
       max-width: 100%;
       padding: 0 15px;
     }
-
     .section {
       padding: 40px 0;
-
       &-title {
         font-size: 24px;
         margin-bottom: 15px;
       }
     }
-
     .page {
       &-title {
         font-size: 32px;
       }
     }
-
     .summeryGraph {
       &_card {
         width: 264px;
-
         label {
           font-size: 18px;
         }
-
         p {
           font-size: 24px;
         }
       }
-
       &-item {
         gap: 0 14px;
-
         p {
           font-size: 16px;
         }
-
         .status {
           font-size: 14px;
         }
       }
     }
-
     .summary,
     .security {
       &-item {
         padding: 18px;
       }
-
       &-label {
         font-size: 18px;
       }
-
       &-value {
         font-size: 24px;
       }
     }
-
     .summary {
       &-item {
         &::before {
@@ -438,50 +395,41 @@
           height: 50px;
         }
       }
-
       &-icon {
         width: 50px;
         height: 50px;
       }
     }
   }
-
   @media (max-width: 1199px) {
-    padding-top: 30px;
-
+    // padding-top: 30px;
     .page {
       &-title {
         font-size: 28px;
       }
     }
-
     .section {
       &-title {
         font-size: 22px;
       }
     }
-
     .summeryGraph {
       &-item {
         padding: 20px 15px;
       }
     }
-
     .summary,
     .security {
       &-item {
         padding: 14px;
       }
-
       &-label {
         font-size: 16px;
       }
-
       &-value {
         font-size: 22px;
       }
     }
-
     .summary {
       &-icon {
         width: 42px;
@@ -489,7 +437,6 @@
         margin-right: 10px;
       }
     }
-
     .security {
       &-item {
         img {
@@ -498,22 +445,18 @@
       }
     }
   }
-
   @media (max-width: 991px) {
     .section {
       padding: 30px 0;
-
       &-title {
         font-size: 22px;
       }
     }
-
     .summary {
       &-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-
     .summeryGraph {
       .col {
         &-left,
@@ -521,12 +464,10 @@
           max-width: 100%;
           flex: 100%;
         }
-
         &-left {
           margin-bottom: 20px;
         }
       }
-
       &_card {
         bottom: 30px;
       }

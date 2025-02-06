@@ -26,7 +26,6 @@ export default function Login() {
             });
             if (res.status == 400) {
                 const errorData = await res.json();
-                console.log(errorData, "errorData");
                 toast.error(errorData.message);
                 return;
             }

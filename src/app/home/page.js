@@ -613,6 +613,17 @@ export default function Home() {
                                 <li>After generating, copy the token immediately as it may not be displayed again.</li>
                             </ul>
                         </div>
+                        <div className="quickModal_cnt_inner">
+                            <h2 className="quickModal_title">
+                                For Enabling RLS :
+                            </h2>
+                            <ul className="mb-0 ps-4">
+                                <li>Go to Supabase and log in to your account.</li>
+                                <li>Navigate to SQL Editor </li>
+                                <li>Run below command </li>
+                                <li>ALTER TABLE table_name ENABLE ROW LEVEL SECURITY;</li>
+                            </ul>
+                        </div>
                     </div>
                 </Modal.Body>
             </Modal>

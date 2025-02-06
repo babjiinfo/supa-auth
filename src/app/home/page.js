@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import Modal from 'react-bootstrap/Modal';
 import { marked } from 'marked';
+import { Collapse, Form, InputGroup } from 'react-bootstrap';
+import toast from 'react-hot-toast';
 // import ReactApexChart from 'react-apexcharts';
 
 /**
@@ -56,7 +58,7 @@ export default function Home() {
     };
     const [userData, setUserData] = useState([]);
     const [tableData, setTableData] = useState([]);
-    const [summaryData, setSummaryData] = useState(null);
+    const [summaryData, setSummaryData] = useState(true);
     const [recommendations, setRecommendations] = useState([]);
     const [securityChecks, setSecurityChecks] = useState(true);
     const [totalTables, setTotalTables] = useState(0);
@@ -74,6 +76,7 @@ export default function Home() {
         { id: 1, text: "Hello! How can I assist you today?", sender: 'ai' }
     ]);
     const [inputMessage, setInputMessage] = useState('');
+    const [tableName, setTableName] = useState('');
 
     // chat box
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -86,7 +89,9 @@ export default function Home() {
         setIsFormVisible((prev) => !prev);
     };
 
-    // In your component
+    //  collapse
+    const [open, setOpen] = useState(false);
+
     /**
      * Effect hook to retrieve authentication data from session storage.
      * Parses the stored data and updates the state with user details.
@@ -97,12 +102,12 @@ export default function Home() {
             const parsedData = JSON.parse(storedData);
             setUserData(parsedData?.results || []);
             setTableData(parsedData?.rlsData || []);
-            setSummaryData(parsedData.recommendations || null);
+            setSummaryData(parsedData.recommendations || []);
             setRecommendations(parsedData.recommendations || []);
             setSecurityChecks(parsedData.securityChecks || true);
             setTotalTables(parsedData?.totalTables || 0);
             setTablesWithRls(parsedData?.tablesWithRls || 0);
-            setrlsAcceptanceRatio(parsedData?.rlsAcceptanceRatio || 1);
+            setrlsAcceptanceRatio(parseFloat((parsedData?.rlsAcceptanceRatio || 0).toFixed(2)));
             setTotalUsers(parsedData?.totalUsers || 0);
             setUsersWithMfa(parsedData?.usersWithMfa || 0);
             setProjectData(parsedData?.projectData || []);
@@ -121,6 +126,41 @@ export default function Home() {
             }));
         }
     }, [totalTables]);
+
+
+    const handleRLS = async (e) => {
+        e.preventDefault();
+        setOpen(true);
+        if (tableName === '') {
+            toast.error('Table name required');
+        }
+        try {
+            const res = await fetch('/api/auth/rls', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tableName }),
+            });
+
+            const data = await res.json();
+            if (res.status == 400) {
+                const errorData = await res.json();
+                toast.error(errorData.message);
+                return;
+            }
+            setTableName('');
+            toast.success(data?.message || 'Row Level Security enabled successfully');
+
+        } catch (error) {
+            if (error?.code === '42P01') {
+                toast.error('Table not found');
+            } else {
+                toast.error(error?.message || 'An unknown error occurred');
+            }
+        }
+
+    };
 
     const handleSendMessage = async () => {
         if (inputMessage.trim() === '') return;
@@ -317,20 +357,25 @@ export default function Home() {
                             <div className="col-right">
                                 <div className="summeryGraph_right">
                                     <div className="summeryGraph_right_inner">
-                                        {recommendations.map((rec, index) => (
-                                            <div key={index} className='summeryGraph-item'>
-                                                <div className="summeryGraph-user">
-                                                    <img src="placeholder-img.png" alt="" />
+                                        {recommendations?.length > 0 ? (
+                                            recommendations?.map((rec, index) => (
+                                                <div key={index} className='summeryGraph-item'>
+                                                    <div className="summeryGraph-user">
+                                                        <img src="placeholder-img.png" alt="" />
+                                                    </div>
+                                                    <div>
+                                                        <p className='summeryGraph-table'>Table: <span>{rec.table}</span> </p>
+                                                        {/* <span className={`status ${user.mfaEnabled ? 'status-success' : 'status-danger'}`}></span> */}
+                                                        <p className='summeryGraph-severity'>Severity: <span className={`status ${rec.severity === 'Low' ? 'status-success' : 'status-danger'}`}>{rec.severity}</span></p>
+                                                        <p className='summeryGraph-text'>{rec.recommendation}</p>
+                                                        <p className='summeryGraph-details'>{rec.details}</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className='summeryGraph-table'>Table: <span>{rec.table}</span> </p>
-                                                    {/* <span className={`status ${user.mfaEnabled ? 'status-success' : 'status-danger'}`}></span> */}
-                                                    <p className='summeryGraph-severity'>Severity: <span className={`status ${rec.severity === 'Low' ? 'status-success' : 'status-danger'}`}>{rec.severity}</span></p>
-                                                    <p className='summeryGraph-text'>{rec.recommendation}</p>
-                                                    <p className='summeryGraph-details'>{rec.details}</p>
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))
+                                        ) : (
+                                            <span>No Recommendations</span>
+                                        )}
+
                                     </div>
                                 </div>
                             </div>
@@ -352,16 +397,17 @@ export default function Home() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {userData.map((user, index) => (
-                                    <tr key={user.id}>
-                                        <td className='table-cell'>{index + 1}</td>
-                                        <td className='table-cell'>{user.email}</td>
-                                        <td className='table-cell'>
-                                            <span className={`status ${user.mfaEnabled ? 'status-success' : 'status-danger'}`}>
-                                                {user.mfaEnabled ? 'Yes' : 'No'}
-                                            </span>
-                                        </td>
-                                        {/* <td className='table-cell'>
+                                {userData?.length > 0 ? (
+                                    userData?.map((user, index) => (
+                                        <tr key={index}>
+                                            <td className='table-cell'>{index + 1}</td>
+                                            <td className='table-cell'>{user.email}</td>
+                                            <td className='table-cell'>
+                                                <span className={`status ${user.mfaEnabled ? 'status-success' : 'status-danger'}`}>
+                                                    {user.mfaEnabled ? 'Yes' : 'No'}
+                                                </span>
+                                            </td>
+                                            {/* <td className='table-cell'>
                                         {tableData.length > 0 ? (
                                             <ul className='table-list'>
                                                 {tableData.map((table, index) => (
@@ -377,8 +423,15 @@ export default function Home() {
                                             'No Tables'
                                         )}
                                     </td> */}
-                                    </tr>
-                                ))}
+                                        </tr>
+                                    ))
+                                ) : (
+
+                                    <td colSpan={3} className="table-cell text-center">
+                                        'No Tables'
+                                    </td>
+                                )}
+
                             </tbody>
                         </table>
                     </div>
@@ -398,8 +451,8 @@ export default function Home() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {projectData?.map((project, index) => (
-                                    <tr key={project.id}>
+                                {projectData?.length > 0 ? (projectData?.map((project, index) => (
+                                    <tr key={index}>
                                         <td className='table-cell'>{project?.projectId}</td>
                                         <td className='table-cell'>{project?.projectName}</td>
                                         <td className='table-cell'>
@@ -424,7 +477,12 @@ export default function Home() {
                                         )}
                                     </td> */}
                                     </tr>
-                                ))}
+                                ))) : (
+                                    <td colSpan={3} className="table-cell text-center">
+                                        No data
+                                    </td>
+                                )}
+
                             </tbody>
                         </table>
                     </div>
@@ -457,8 +515,36 @@ export default function Home() {
                         </div> */}
                         <div className="quickModal_cnt_inner">
                             <h2 className="quickModal_title">
-                                For checking whether RLS is enabled or not :
+                                For enabling Row Level Security (RLS) on a table :{"   "}{"   "}
+                                {/* <button
+                                    className="btn btn-sm btn_danger"
+                                    onClick={() => setOpen(!open)}
+                                    aria-controls="collapseText"
+                                    aria-expanded={open}
+                                >
+                                    Fix Now
+                                </button> */}
                             </h2>
+                            <Collapse in={open}  >
+                                <div id="collapseText">
+                                    <div className="collapseInner">
+                                        <Form>
+                                            <InputGroup>
+                                                <Form.Control
+                                                    placeholder="Enter table name"
+                                                    aria-describedby="basic-addon2"
+                                                    value={tableName}
+                                                    onChange={(e) => setTableName(e.target.value)}
+                                                />
+                                                <button
+                                                    className="btn btn-md"
+                                                    onClick={handleRLS}
+                                                >Submit</button>
+                                            </InputGroup>
+                                        </Form>
+                                    </div>
+                                </div>
+                            </Collapse>
                             <ul className="mb-4 ps-4">
                                 <li>Log in to your Supabase dashboard.</li>
                                 <li>Select your project from the dashboard</li>
@@ -534,7 +620,7 @@ export default function Home() {
             <div className="chatBot d-flex flex-column align-items-center">
                 <button type="button" id="toggleLink" aria-label="Chat Button" className="btn-link chatBot_link d-flex align-items-center justify-content-center" onClick={handleToggle}>
                     <svg width="25px" height="25px" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1.49933C0 0.670226 0.671178 0 1.5 0H13.5C14.3288 0 15 0.670226 15 1.49933V10.4935C15 11.3226 14.3288 11.9928 13.5 11.9928H7.66658L3.79988 14.8909C3.64835 15.0045 3.44568 15.0227 3.27632 14.938C3.10697 14.8533 3 14.6802 3 14.4908V11.9928H1.5C0.671178 11.9928 0 11.3226 0 10.4935V1.49933ZM4 3.99738H11V4.99738H4V3.99738ZM4 6.99542H9V7.99542H4V6.99542Z" fill="#fff" />
+                        <path fillRule="evenodd" clipRule="evenodd" d="M0 1.49933C0 0.670226 0.671178 0 1.5 0H13.5C14.3288 0 15 0.670226 15 1.49933V10.4935C15 11.3226 14.3288 11.9928 13.5 11.9928H7.66658L3.79988 14.8909C3.64835 15.0045 3.44568 15.0227 3.27632 14.938C3.10697 14.8533 3 14.6802 3 14.4908V11.9928H1.5C0.671178 11.9928 0 11.3226 0 10.4935V1.49933ZM4 3.99738H11V4.99738H4V3.99738ZM4 6.99542H9V7.99542H4V6.99542Z" fill="#fff" />
                     </svg>
                 </button>
                 <div className={`chatBot_box ${isFormVisible ? "open" : ""}`}  >
@@ -550,7 +636,7 @@ export default function Home() {
                             >
                                 {msg.sender === 'ai' && <img src="logo-1.png" alt="user" />}
                                 <div className="chatBot_body_msg">
-                                    {msg.sender === 'ai' ? formatMessage(msg.text) : msg.text}
+                                    <span>{msg.sender === 'ai' ? formatMessage(msg.text) : msg.text}</span>
                                 </div>
                             </div>
                         ))}

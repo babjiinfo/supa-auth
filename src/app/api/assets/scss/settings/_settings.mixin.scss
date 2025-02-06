@@ -1,0 +1,127 @@
+
+@mixin button-variant($color, $background, $border) {
+    color:$color;background-color:$background;border-color:$border;  
+    &:hover,&:active,&:focus,&.focus &.active,&.show,&-check:checked + &,&:focus-visible,&:not(.btn-check) + &:hover,&:first-child:hover,
+    &-check:focus-visible + &,&:first-child:active,&:not(.btn-check) + &:active {
+      color:$color!important;background-color:darken($background,6%)!important;border-color:darken($border,6%)!important;box-shadow:none!important;
+    }
+    &.disabled,&[disabled],fieldset[disabled] & {
+      background-color:$background;border-color:$border;box-shadow:none;
+      &:hover,&:focus,&.focus {
+        background-color:$background;border-color:$border;box-shadow:none;
+      }
+    }
+  }
+  
+  @mixin button-outline-variant($color, $background, $border) {
+    color:$color;border-color:$border;
+    &:hover,&:active,&:focus,&.focus &.active,&:focus-visible,&:not(.btn-check) + &:hover,&:first-child:hover,&-check:focus-visible + & {
+      color:$background!important;background-color:darken($color,6%)!important;border-color:darken($color,6%)!important;box-shadow:none!important;
+    }
+    &.disabled,&[disabled],fieldset[disabled] & {
+      background-color:$color;border-color:$color;box-shadow:none;
+      &:hover,&:focus,&.focus {
+        background-color:$color;border-color:$color;box-shadow:none;
+      }
+    }
+  }
+  
+  @mixin text-overflow() {
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  @mixin font-face($font-family,$file-path,$weight:normal,$style:normal,$asset-pipeline:false) {
+    @font-face {
+      font-family: $font-family;
+      font-weight: $weight;
+      font-style: $style;
+      font-display: swap;
+      @if $asset-pipeline == true {
+        src: font-url("#{$file-path}.eot");
+        src: font-url("#{$file-path}.eot?#iefix") format("embedded-opentype"),
+          font-url("#{$file-path}.woff") format("woff"),
+          font-url("#{$file-path}.ttf") format("truetype"),
+          font-url("#{$file-path}.svg##{$font-family}") format("svg");
+      } @else {
+        src: url("#{$file-path}.eot");
+        src: url("#{$file-path}.eot?#iefix") format("embedded-opentype"),
+          url("#{$file-path}.woff") format("woff"),
+          url("#{$file-path}.ttf") format("truetype"),
+          url("#{$file-path}.svg##{$font-family}") format("svg");
+      }
+    }
+  }
+  
+  @mixin absolutecenter($axis: "both") {
+    position: absolute;
+    @if $axis == "y" {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    @if $axis == "x" {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    @if $axis == "both" {
+      top:50%;left:50%;transform:translate(-50%,-50%);
+    }
+  }
+  
+  
+  
+  // flex center
+  @mixin flexcenter($axis: "both") {
+    display: flex;
+    @if $axis == "y" {
+      align-items: center;
+    }
+    @if $axis == "x" {
+      justify-content: center;
+    }
+    @if $axis == "both" {
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+  // placeholder
+  @mixin placeholder {
+    &::-webkit-input-placeholder {
+      @content;
+    }
+    &::-moz-placeholder {
+      @content;
+    }
+    &:-ms-input-placeholder {
+      @content;
+    }
+  }
+  
+  
+  @mixin text-clamp($lines: 2, $line-height: false) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+    -moz-line-clamp: $lines;
+    -ms-line-clamp: $lines;
+    -o-line-clamp: $lines;
+    text-overflow: ellipsis;
+    @if $line-height {
+      max-height: $line-height * $lines * 1px;
+    }
+  }
+  
+  @mixin padding($p-xl, $p-lg, $p-md, $p-null) {
+    padding: $p-null;
+    @include media-breakpoint-up(md) {
+      padding: $p-md;
+    }
+    @include media-breakpoint-up(lg) {
+      padding: $p-lg;
+    }
+    @include media-breakpoint-up(xl) {
+      padding: $p-xl;
+    }
+  }
+  
+  

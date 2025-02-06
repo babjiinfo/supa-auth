@@ -1,0 +1,32 @@
+$colors: (
+  50: #ffffff,
+  500:#007cf5,
+  900:#000000,
+);
+
+@function color($color) {
+  @if map-has-key($colors, $color) {
+    @return map-get($colors, $color);
+  }
+  @error "Unknown `#{$color}` in $colors.";
+  @return null;
+}
+
+//fonts
+$fonts: (
+  rg: "General Sans",
+  md: "General Sans Medium",
+  bd: "General Sans Bold",
+);
+
+@function font($font) {
+  @if map-has-key($fonts, $font) {
+    @return map-get($fonts, $font);
+  }
+  @error "Unknown `#{$font}` in $fonts.";
+  @return null;
+}
+
+
+
+$imageurl: "../../images";

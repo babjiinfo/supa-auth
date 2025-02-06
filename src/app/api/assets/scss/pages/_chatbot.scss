@@ -13,7 +13,7 @@
     
     ::-webkit-scrollbar-thumb {
       -webkit-box-shadow: none;
-      background-color: #007cf5;
+      background-color: color(500);
       border-radius: 30px;
     }
   
@@ -21,8 +21,7 @@
           width: 64px;
           height: 64px;
           border-radius: 50%;
-          background-color: #007cf5;
-          margin-top: 20px;
+          background-color: color(500);
           border: 0;
           position: fixed;
           bottom: 20px;
@@ -33,7 +32,7 @@
       }
       &_box {
           position: fixed;
-          background-color: #fff;
+          background-color: color(50);
           box-shadow: 5px 5px 10px rgba(0, 0, 0, .15);
           bottom: 20px;
           right: 20px;
@@ -49,7 +48,7 @@
        
       &_header{
           padding:15px;display: flex;align-items: center;justify-content: space-between;
-          background-color: #007cf5;color:#fff;
+          background-color: color(500);color:color(50);
           h3{font-weight: 600;font-size: 26px; margin-bottom: 0;}
           .closeIcon {
               width: 14px;
@@ -66,7 +65,7 @@
               left: 0;
               width: 100%;
               height: 2px;
-              background-color: #fff;
+              background-color: color(50);
               transform: translateY(-50%) rotate(45deg);
             }
             
@@ -76,7 +75,7 @@
             
       }
       &_body{
-          padding:15px; background-color: #fff;height:calc(100% - 121px);
+          padding:15px; background-color: color(50);height:calc(100% - 121px);
           overflow: auto;
           &_send, &_receive{
               display: flex; margin-bottom: 20px;
@@ -84,21 +83,21 @@
           &_send{
               
               img{margin-right: 8px; }
-              .chatBot_body_msg span{border-radius:0px 10px 10px 10px;background-color: rgba(#000, 0.1);}
+              .chatBot_body_msg span{border-radius:0px 10px 10px 10px;background-color: rgba(color(900), 0.1);}
           }
           &_receive{
               flex-direction: row-reverse; text-align: right;
               img{margin-left: 8px;}
-              .chatBot_body_msg span{border-radius: 10px 0px 10px 10px; background-color: rgba(#007cf5, 0.1); color:#000;}
+              .chatBot_body_msg span{border-radius: 10px 0px 10px 10px; background-color: rgba(color(500), 0.1); color:color(900);}
           }
           img{
               width: 40px;height: 40px;border-radius: 50%;object-fit: cover;
               flex-shrink: 0;
           }
           &_msg{
-              color:#000;font-size: 14px;max-width: 330px;width: 100%;
+              color:color(900);font-size: 14px;max-width: 330px;width: 100%;
               span{
-                  background-color: #fff; padding:15px; display: inline-block;
+                  background-color: color(50); padding:15px; display: inline-block;
               }
           }
       }
@@ -109,16 +108,57 @@
               border: 0;
               width: 100%;
               font-size: 16px;
-              color:#000;
+              color:color(900);
               height: 40px;
               &:focus{outline: none; }
           }
           &_sendBtn{
-              width: 40px;height: 40px;background-color: #007cf5; color:#fff;border-radius: 5px;
+              width: 40px;height: 40px;background-color: color(500); color:color(50);border-radius: 5px;
               display: flex;align-items: center;justify-content: center;border:0;box-shadow: 0;cursor: pointer;
               position: absolute; right: 10px; top:50%;transform: translateY(-50%);transition:all 0.5s;
               &:hover{background-color: #2b91f7;}
           }
           
       }
+
+   @include media-breakpoint-down(md) {
+        &_link{
+            width: 50px;height: 50px;
+            svg{width: 18px;}
+        }
+        &_header{
+            padding:10px 15px;
+            h3{font-size: 20px;}
+        }
+        &_box{
+            width: 320px;height: 290px;
+        }
+        &_body{
+            height: calc(100% - 92px);
+            img{width: 30px;height: 30px;}
+            &_send, &_receive{
+                margin-bottom: 10px;
+            }
+            &_msg span{
+                padding:10px;
+            }
+        }
+        &_footer{
+            height: 50px;padding:5px 15px;
+            input{
+                height: 40px;font-size: 14px;
+            }
+            &_sendBtn{
+                width: 30px;height: 30px;
+                svg{width: 13px;}
+            }
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        &_header{
+            h3{font-size: 18px;}
+        }
+    }
+    
   }

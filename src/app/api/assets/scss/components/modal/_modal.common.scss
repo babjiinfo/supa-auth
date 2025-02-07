@@ -1,12 +1,11 @@
 .quickModal{
-    font-family: "General Sans";
     -webkit-backdrop-filter: blur(7px);
     backdrop-filter: blur(7px);
     background-color: #00000041;
     .modal{
         &-title{
             font-size: 26px;
-            font-family: "General Sans Medium";
+            font-family: font(md);
             font-weight: 600;
             color: #0694FF;
         }
@@ -31,13 +30,13 @@
     &_title{
         font-size: 18px;
         margin-bottom: 12px;
-        color: #000;
-        font-family: "General Sans medium";
+        color: color(900);
+        font-family: font(md);
         font-weight: 600;
     }
     &_txt{
         font-size: 16px;
-        color: #000;
+        color: color(900);
         margin-bottom: 0;
     }
     &_cnt{
@@ -50,7 +49,7 @@
         }
         li{
             color: #525866;
-            font-family: "General Sans Medium";
+            font-family: font(md);
             &:not(:last-child){
                 margin-bottom: 10px;
             }
@@ -63,7 +62,7 @@
             max-width: 600px;
             border-radius: 8px;
             .form-control{
-                background: #fff;
+                background: color(50);
                 &:focus{box-shadow: none; outline: 0;}
             }                
         }

@@ -96,6 +96,11 @@
           }
           &_msg{
               color:color(900);font-size: 14px;max-width: 330px;width: 100%;
+              .markdown-content{
+                p{
+                    margin-bottom: 0;
+                }
+              }
               span{
                   background-color: color(50); padding:15px; display: inline-block;
               }

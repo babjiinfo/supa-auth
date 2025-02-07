@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { mfaLogger, rlsLogger, pitrLogger } from '../../../lib/logger';
+
 
 /**
  * @typedef {Object} SecurityAuditResponse
@@ -58,14 +60,18 @@ export async function POST(req) {
         // Fetch RLS status for all tables
         const { data: rlsData, error: rlsError } = await supabase.rpc('get_tables_rls_status');
         if (rlsError) {
+            rlsLogger.error(`RLS Error: ${error.message}`);
             return NextResponse.json({ success: false, message: 'Failed to fetch RLS status' }, { status: 500 });
         }
+        rlsLogger.info(`RLS Status: ${JSON.stringify(rlsData)}`);
 
         // Fetch user list and MFA status
         const { data: users, error: userError } = await supabase.auth.admin.listUsers();
         if (userError) {
+            mfaLogger.error(`MFA Error: ${error.message}`);
             return NextResponse.json({ success: false, message: 'Failed to fetch users' }, { status: 500 });
         }
+        mfaLogger.info(`MFA Status: ${JSON.stringify(users)}`);
 
         // Process user data and MFA status
         const results = users?.users.map((user) => ({
@@ -82,11 +88,12 @@ export async function POST(req) {
         });
 
         if (!response.ok) {
+            pitrLogger.error(`Failed to fetch projects. Status: ${response.status}`);
             return NextResponse.json({ success: false, message: `Failed to fetch projects. Status: ${response.status}` }, { status: 500 });
         }
 
-        // Process project data and PITR status
         const projects = await response.json();
+        pitrLogger.info(`Fetched projects successfully ${JSON.stringify(projects)}`);
         const projectData = projects?.map((proj) => ({
             projectId: proj.id,
             projectName: proj.name,

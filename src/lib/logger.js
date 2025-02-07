@@ -25,5 +25,8 @@ const createLogger = (filename) => {
 // Separate loggers for different functionalities
 const loginLogger = createLogger('login');
 const signupLogger = createLogger('signup');
+const mfaLogger = createLogger('mfa');
+const rlsLogger = createLogger('rls');
+const pitrLogger = createLogger('pitr');
 
-export { loginLogger, signupLogger };
+export { loginLogger, signupLogger, mfaLogger, rlsLogger, pitrLogger };

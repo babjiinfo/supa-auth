@@ -591,7 +591,7 @@ export default function Home() {
                         </div> */}
                         <div className="quickModal_cnt_inner">
                             <h2 className="quickModal_title">
-                                For enabling Row Level Security (RLS) on a table :{"   "}{"   "}
+                                For checking wheather Row Level Security (RLS) is enabled on a table :{"   "}{"   "}
                                 {/* <button
                                     className="btn btn-sm btn_danger"
                                     onClick={() => setOpen(!open)}

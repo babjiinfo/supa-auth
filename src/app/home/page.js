@@ -493,7 +493,7 @@ export default function Home() {
                                     ) : (
                                         <tr>
                                             <td colSpan={3} className="table-cell text-center">
-                                                No Tables
+                                                No Data
                                             </td>
                                         </tr>
                                     )}
